@@ -6,12 +6,12 @@ load_dotenv()
 AMAP_KEY = os.getenv("AMAP_KEY")
 DEEPSEEK_KEY = os.getenv("DEEPSEEK_KEY")
 
-print("✅ 已加载 llm_api.py（支持真实高德搜索）")
+print("[llm_api] loaded")
 
 async def search_nearby_restaurants(lat, lng, radius, keywords):
     """调用高德地图周边搜索API，返回餐厅列表"""
     if not AMAP_KEY:
-        print("❌ 高德地图API Key未配置")
+        print("AMAP API key is not configured")
         return []
 
     url = "https://restapi.amap.com/v3/place/around"

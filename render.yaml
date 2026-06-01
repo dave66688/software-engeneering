@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: foodadvisor
+    runtime: python
+    plan: free
+    region: singapore
+    buildCommand: pip install -r requirements.txt
+    startCommand: python app.py
+    healthCheckPath: /
+    envVars:
+      - key: AMAP_KEY
+        sync: false
+      - key: DEEPSEEK_KEY
+        sync: false

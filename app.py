@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
 import os
+from pathlib import Path
 from dotenv import load_dotenv
 import time
 
@@ -11,6 +12,7 @@ from amap_api import ip_location
 
 load_dotenv()
 app = FastAPI()
+BASE_DIR = Path(__file__).resolve().parent
 
 # 跨域配置（开发环境）
 app.add_middleware(
@@ -39,7 +41,7 @@ class ChatRequest(BaseModel):
 # 首页
 @app.get("/", response_class=HTMLResponse)
 async def get_index():
-    with open("index.html", "r", encoding="utf-8") as f:
+    with open(BASE_DIR / "index.html", "r", encoding="utf-8") as f:
         return f.read()
 
 # 首页推荐（3家）
@@ -128,4 +130,5 @@ async def get_ip_location(request: Request):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=2025)
+    port = int(os.getenv("PORT", "2025"))
+    uvicorn.run(app, host="0.0.0.0", port=port)

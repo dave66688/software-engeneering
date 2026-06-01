@@ -18,9 +18,14 @@ async def ip_location(ip=""):
             async with session.get(url, params=params) as resp:
                 data = await resp.json()
                 if data.get("status") == "1":
+                    rectangle = data.get("rectangle", "")
+                    if isinstance(rectangle, str) and ";" in rectangle and "," in rectangle:
+                        point = rectangle.split(";")[0].split(",")
+                        if len(point) == 2:
+                            return {"lng": point[0], "lat": point[1]}
                     return {
-                        "lng": data.get("rectangle", "").split(";")[0].split(",")[0],
-                        "lat": data.get("rectangle", "").split(";")[0].split(",")[1]
+                        "lng": "116.397428",
+                        "lat": "39.90923"
                     }
     except Exception as e:
         print(f"IP定位错误: {e}")
